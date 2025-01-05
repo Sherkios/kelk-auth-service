@@ -3,6 +3,7 @@
   "explorer.fileNesting.enabled": false,
   "editor.hideCursorInOverviewRuler": false,
   "git.closeDiffOnOperation": false,
+  "editor.suggestOnTriggerCharacters": true,
   "intelephense.files.exclude": [
     "**/.svn/**",
     "**/.hg/**",
@@ -14,5 +15,6 @@
     "**/.history/**",
     "**/vendor/**/vendor/**",
     "**/.git/**"
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

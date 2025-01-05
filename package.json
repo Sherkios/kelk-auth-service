@@ -2,14 +2,36 @@
   "name": "kelk-auth-service",
   "version": "1.0.0",
   "description": "auth service",
-  "main": "index.js",
+  "main": "app.ts",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "build": "rm -rf dist && tsc",
+    "start": "node dist/src/app.js",
+    "dev": "nodemon"
   },
   "keywords": [
     "kelk",
     "auth"
   ],
   "author": "Igor Grishchenko",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.1",
+    "uuid": "^11.0.4"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.5",
+    "@types/pg": "^8.11.10",
+    "dotenv": "^16.4.7",
+    "eslint": "^9.17.0",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.4.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.2"
+  }
 }
