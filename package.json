@@ -4,7 +4,6 @@
   "description": "auth service",
   "main": "app.ts",
   "scripts": {
-    "test": "test",
     "build": "rm -rf dist && tsc",
     "start": "node dist/src/app.js",
     "dev": "nodemon"

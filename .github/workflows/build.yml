@@ -3,31 +3,28 @@ name: Build Pipeline
 on:
   push:
     branches:
-      - main  # Запускать при пушах в main
+      - main # Запускать при пушах в main
       - dev
   pull_request:
     branches:
-      - main  # Запускать для PR, направленных в main
+      - main # Запускать для PR, направленных в main
       - dev
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Виртуальная машина для выполнения пайплайна
+    runs-on: ubuntu-latest # Виртуальная машина для выполнения пайплайна
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # Клонирование репозитория
+        uses: actions/checkout@v3 # Клонирование репозитория
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18  # Укажите версию Node.js
+          node-version: 18 # Укажите версию Node.js
 
       - name: Install dependencies
         run: npm install
 
       - name: Build project
         run: npm run build
-
-      - name: Run tests
-        run: npm test
