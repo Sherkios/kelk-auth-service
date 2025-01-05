@@ -12,9 +12,7 @@
     "**/bower_components/**",
     "**/vendor/**/{Tests,tests}/**",
     "**/.history/**",
-    "**/vendor/**/vendor/**"
-  ],
-  "files.exclude": {
-    "**/.git": false
-  }
+    "**/vendor/**/vendor/**",
+    "**/.git/**"
+  ]
 }
