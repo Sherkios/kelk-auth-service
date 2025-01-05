@@ -1,0 +1,15 @@
+{
+  "name": "kelk-auth-service",
+  "version": "1.0.0",
+  "description": "auth service",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "kelk",
+    "auth"
+  ],
+  "author": "Igor Grishchenko",
+  "license": "ISC"
+}
