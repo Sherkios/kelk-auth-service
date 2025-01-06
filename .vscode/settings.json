@@ -1,0 +1,15 @@
+{
+  // "explorer.excludeGitIgnore": true,
+  "explorer.fileNesting.enabled": false,
+  "editor.hideCursorInOverviewRuler": false,
+  "git.closeDiffOnOperation": false,
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  },
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "eslint.run": "onType",
+  "eslint.validate": ["javascript", "typescript", "javascriptreact", "typescriptreact"],
+
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
