@@ -3,11 +3,10 @@ name: Build Pipeline
 on:
   push:
     branches:
-      - main # Запускать при пушах в main
       - dev
   pull_request:
     branches:
-      - main # Запускать для PR, направленных в main
+      - main
       - dev
 
 jobs:

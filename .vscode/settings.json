@@ -1,20 +1,15 @@
 {
-  "explorer.excludeGitIgnore": true,
+  // "explorer.excludeGitIgnore": true,
   "explorer.fileNesting.enabled": false,
   "editor.hideCursorInOverviewRuler": false,
   "git.closeDiffOnOperation": false,
   "editor.suggestOnTriggerCharacters": true,
-  "intelephense.files.exclude": [
-    "**/.svn/**",
-    "**/.hg/**",
-    "**/CVS/**",
-    "**/.DS_Store/**",
-    "**/node_modules/**",
-    "**/bower_components/**",
-    "**/vendor/**/{Tests,tests}/**",
-    "**/.history/**",
-    "**/vendor/**/vendor/**",
-    "**/.git/**"
-  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  },
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "eslint.run": "onType",
+  "eslint.validate": ["javascript", "typescript", "javascriptreact", "typescriptreact"],
+
   "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -1,17 +1,13 @@
 import { Pool } from "pg";
 
-import dotenv from "dotenv";
-
-dotenv.config();
-
-const PORT: number = Number(process.env.DB_PORT) || 5432;
+import environment from "config/environment";
 
 const pool = new Pool({
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  host: process.env.DB_HOST,
-  port: PORT,
-  database: process.env.DB_NAME,
+  user: environment.dbUser,
+  password: environment.dbPassword,
+  host: environment.dbHost,
+  port: environment.dbPort,
+  database: environment.dbName,
 });
 
 const connect = async (): Promise<void> => {
