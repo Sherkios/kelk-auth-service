@@ -26,4 +26,7 @@ jobs:
         run: npm install
 
       - name: Start project
-        run: npm run start &
+        run: npm run start & wait-on http://localhost:3000
+
+      - name: Stop server
+        run: kill $(lsof -t -i:5000)

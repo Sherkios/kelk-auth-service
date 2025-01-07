@@ -1,6 +1,7 @@
 declare namespace NodeJS {
   interface ProcessEnv {
     AUTH_PORT?: string; // Порт, на котором запускается приложение
+    AUTH_FORWARD_PORT?: string; // Порт, на котором запускается приложение
     DB_USER: string; // Пользователь базы данных
     DB_PASSWORD: string; // Пароль базы данных
     DB_HOST: string; // Хост базы данных
