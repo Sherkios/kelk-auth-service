@@ -13,6 +13,8 @@ jobs:
   build:
     runs-on: ubuntu-latest # Виртуальная машина для выполнения пайплайна
 
+    env: AUTH_PORT
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3 # Клонирование репозитория
@@ -29,4 +31,4 @@ jobs:
         run: npm run start &
 
       - name: Stop server
-        run: kill $(lsof -t -i:5000)
+        run: kill $(lsof -t -i:$AUTH_PORT)
