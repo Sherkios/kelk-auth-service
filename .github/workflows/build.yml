@@ -25,9 +25,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: rewrite env
-        run: echo  "AUTH_PORT=5000" > .env
-
       - name: Start project
         run: npm run start &
 
