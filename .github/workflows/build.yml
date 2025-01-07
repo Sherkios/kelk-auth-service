@@ -32,4 +32,4 @@ jobs:
         run: npm run start &
 
       - name: Stop server
-        run: kill $(lsof -t -i:$AUTH_PORT)
+        run: kill $(lsof -t -i:5000)
