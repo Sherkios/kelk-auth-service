@@ -8,6 +8,5 @@ declare namespace NodeJS {
     DB_NAME: string; // Название базы данных
     DB_PORT?: string; // Порт базы данных
     JWT_SECRET: string; // Секрет для токенов
-    JWT_REFRESH_SECRET: string; // Секрет для refresh токенов
   }
 }
