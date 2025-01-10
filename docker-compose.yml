@@ -31,7 +31,8 @@ services:
       - "${DB_PORT:-5432}:${DB_FORWARD_PORT:-5432}"
 
     volumes:
-      - "./src/db/data:/var/lib/postgresql/data"
+      - "./dbdata:/var/lib/postgresql/data"
+      - "./src/db/init:/docker-entrypoint-initdb.d"
 
     networks:
       - kelk_network
