@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import JwtService from "src/service/jwt.service";
+import ApiError from "utils/api-error";
 
 export default function (req: Request, res: Response, next: NextFunction) {
   if (req.method === "OPTIONS") {
@@ -10,7 +11,7 @@ export default function (req: Request, res: Response, next: NextFunction) {
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
-      res.status(401).json({ message: "Пользователь не авторизован" });
+      throw ApiError.UnauthorizedError();
     } else {
       const decodedData = JwtService.getVerifyAccessToken(token);
 
@@ -18,6 +19,6 @@ export default function (req: Request, res: Response, next: NextFunction) {
       next();
     }
   } catch (error) {
-    res.status(401).json({ message: "Пользователь не авторизован" });
+    next(error);
   }
 }
