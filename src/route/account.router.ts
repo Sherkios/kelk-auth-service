@@ -7,7 +7,8 @@ const accountRouter = Router();
 accountRouter.post("/account", AccountController.register);
 
 accountRouter.post("/account/login", AccountController.login);
-accountRouter.get("/account/refresh", AccountController.refreshToken);
+accountRouter.post("/account/logout", [authMiddleware], AccountController.logout);
+accountRouter.get("/account/refresh", [authMiddleware], AccountController.refreshToken);
 
 accountRouter.get("/account/:id", [authMiddleware], AccountController.getById);
 
