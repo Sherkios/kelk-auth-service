@@ -20,10 +20,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18 # Укажите версию Node.js
+          node-version: 22 # Укажите версию Node.js
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
-        run: npm run build
+      - name: Start project
+        run: npm run start &
+
+      - name: Stop server
+        run: kill $(lsof -t -i:5000)
