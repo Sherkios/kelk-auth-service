@@ -32,6 +32,10 @@
     "paths": {
       "db/*": ["src/db/*"],
       "config/*": ["src/config/*"],
+      "types/*": ["src/types/*"],
+      "service/*": ["src/service/*"],
+      "model/*": ["src/model/*"],
+      "route/*": ["src/route/*"],
       "src/*": ["src/*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */

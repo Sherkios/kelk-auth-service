@@ -1,14 +1,16 @@
 import bcrypt from "bcrypt";
 
-export async function hashPassword(password: string): Promise<string> {
-  const salt = 10;
-  const passwordHash: string = await bcrypt.hash(password, salt);
+export default class AccountService {
+  public static async hashPassword(password: string): Promise<string> {
+    const salt = 10;
+    const passwordHash: string = await bcrypt.hash(password, salt);
 
-  return passwordHash;
-}
+    return passwordHash;
+  }
 
-export async function checkPassword(password: string, hashedPassword: string): Promise<boolean> {
-  const isCorrect = await bcrypt.compare(password, hashedPassword);
+  public static async checkPassword(password: string, hashedPassword: string): Promise<boolean> {
+    const isCorrect = await bcrypt.compare(password, hashedPassword);
 
-  return isCorrect;
+    return isCorrect;
+  }
 }

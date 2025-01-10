@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { getVerifyToken } from "src/service/account.service";
+import JwtService from "src/service/jwt.service";
 
 export default function (req: Request, res: Response, next: NextFunction) {
   if (req.method === "OPTIONS") {
@@ -12,7 +12,8 @@ export default function (req: Request, res: Response, next: NextFunction) {
     if (!token) {
       res.status(401).json({ message: "Пользователь не авторизован" });
     } else {
-      const decodedData = getVerifyToken(token);
+      const decodedData = JwtService.getVerifyAccessToken(token);
+
       req.body.user = decodedData;
       next();
     }

@@ -1,7 +1,8 @@
 import { Response, Request } from "express";
+import AccountService from "service/account.service";
+import RedisService from "service/redis.service";
 import AccountModel from "src/model/account.model";
-import { checkPassword, hashPassword } from "src/service/account.service";
-import { generateAccessToken } from "src/service/jwt.service";
+import JwtService from "src/service/jwt.service";
 
 export default class AccountController {
   static async register(req: Request, res: Response) {
@@ -20,7 +21,7 @@ export default class AccountController {
         return;
       }
 
-      const hashedPassword = await hashPassword(password);
+      const hashedPassword = await AccountService.hashPassword(password);
 
       const newAccount = await AccountModel.createAccount(name, hashedPassword);
 
@@ -42,9 +43,12 @@ export default class AccountController {
         const account = await AccountModel.findByName(login);
 
         if (account) {
-          const isCorrectPassword: boolean = await checkPassword(password, account.password);
+          const isCorrectPassword: boolean = await AccountService.checkPassword(
+            password,
+            account.password,
+          );
           if (isCorrectPassword) {
-            const token = generateAccessToken(account.id);
+            const token = JwtService.generateToken({ id: account.id });
 
             res.status(200).json({ token });
             return;
@@ -53,6 +57,31 @@ export default class AccountController {
       }
 
       res.status(400).json({ message: "Неверный логин или пароль" });
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
+  }
+
+  static async refreshToken(req: Request, res: Response) {
+    try {
+      const token = req.headers.authorization?.split(" ")[1];
+
+      if (token) {
+        const key = `account:accessToken:${token}`;
+        const refreshToken = await RedisService.get(key);
+
+        if (refreshToken) {
+          const { id } = JwtService.getVerifyRefreshToken(refreshToken);
+          const token = JwtService.generateToken({ id });
+
+          await RedisService.delete(key);
+
+          res.status(200).json({ token });
+          return;
+        }
+      }
+
+      res.status(401).json({ message: "Пользователь не авторизован" });
     } catch (error) {
       res.status(500).json({ message: "Server error" });
     }
