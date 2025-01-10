@@ -1,39 +1,36 @@
-import { Response, Request } from "express";
+import { Response, Request, NextFunction } from "express";
+import AccountService from "service/account.service";
+import RedisService from "service/redis.service";
 import AccountModel from "src/model/account.model";
-import { checkPassword, generateAccessToken, hashPassword } from "src/service/account.service";
+import JwtService from "src/service/jwt.service";
+import ApiError from "utils/api-error";
 
 export default class AccountController {
-  static async register(req: Request, res: Response) {
+  static async register(req: Request, res: Response, next: NextFunction) {
     try {
       const { name, password } = req.body;
 
-      if (!name && !password) {
-        res.status(401).json({ message: "Name and password must be writen" });
-        return;
+      if (!name || !password) {
+        throw ApiError.BadRequest("Имя и пароль должны быть заполнены");
       }
 
       const existingAccount = await AccountModel.findByName(name);
 
       if (existingAccount) {
-        res.status(400).json({ message: "account arleady exists" });
-        return;
+        throw ApiError.BadRequest("Логин уже занят");
       }
 
-      const hashedPassword = await hashPassword(password);
+      const hashedPassword = await AccountService.hashPassword(password);
 
       const newAccount = await AccountModel.createAccount(name, hashedPassword);
 
       res.status(201).json(newAccount);
     } catch (error) {
-      console.error(error);
-
-      res.status(500).json({
-        message: "Error create account",
-      });
+      next(error);
     }
   }
 
-  static async login(req: Request, res: Response) {
+  static async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { login, password } = req.body;
 
@@ -41,9 +38,12 @@ export default class AccountController {
         const account = await AccountModel.findByName(login);
 
         if (account) {
-          const isCorrectPassword: boolean = await checkPassword(password, account.password);
+          const isCorrectPassword: boolean = await AccountService.checkPassword(
+            password,
+            account.password,
+          );
           if (isCorrectPassword) {
-            const token = generateAccessToken(account.id);
+            const token = JwtService.generateToken({ id: account.id });
 
             res.status(200).json({ token });
             return;
@@ -51,13 +51,50 @@ export default class AccountController {
         }
       }
 
-      res.status(400).json({ message: "Неверный логин или пароль" });
+      throw ApiError.BadRequest("Неверный логин или пароль");
     } catch (error) {
-      res.status(500).json({ message: "Server error" });
+      next(error);
     }
   }
 
-  static async getById(req: Request, res: Response) {
+  static async logout(req: Request, res: Response, next: NextFunction) {
+    try {
+      const token = req.headers.authorization?.split(" ")[1];
+
+      if (token) {
+        RedisService.hSet("token:blacklist", token, token, 86400);
+        res.status(200).json({ message: "Пользователь вышел" });
+        return;
+      }
+      throw ApiError.UnauthorizedError();
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async refreshToken(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.body.user;
+
+      const key = `account:${id}:refreshToken`;
+      const refreshToken = await RedisService.get(key);
+
+      if (refreshToken) {
+        const token = JwtService.generateToken({ id });
+
+        await RedisService.delete(key);
+
+        res.status(200).json({ token });
+        return;
+      }
+
+      throw ApiError.UnauthorizedError();
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
 
@@ -71,13 +108,13 @@ export default class AccountController {
 
           res.status(200).json(otherAcountValue);
         } else {
-          res.status(400).json({ message: "Пользователя с таким id не существует" });
+          throw ApiError.BadRequest("Пользователя с таким id не существует");
         }
       } else {
-        res.status(400).json({ message: "Не корректный id" });
+        throw ApiError.BadRequest("Не корректный id");
       }
     } catch (error) {
-      res.status(500).json({ message: "Server error" });
+      next(error);
     }
   }
 }
