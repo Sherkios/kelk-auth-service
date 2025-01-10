@@ -1,6 +1,7 @@
 import { Response, Request } from "express";
 import AccountModel from "src/model/account.model";
-import { checkPassword, generateAccessToken, hashPassword } from "src/service/account.service";
+import { checkPassword, hashPassword } from "src/service/account.service";
+import { generateAccessToken } from "src/service/jwt.service";
 
 export default class AccountController {
   static async register(req: Request, res: Response) {
