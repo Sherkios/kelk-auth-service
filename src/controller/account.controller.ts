@@ -57,23 +57,35 @@ export default class AccountController {
     }
   }
 
-  static async refreshToken(req: Request, res: Response, next: NextFunction) {
+  static async logout(req: Request, res: Response, next: NextFunction) {
     try {
       const token = req.headers.authorization?.split(" ")[1];
 
       if (token) {
-        const key = `account:accessToken:${token}`;
-        const refreshToken = await RedisService.get(key);
+        RedisService.hSet("token:blacklist", token, token, 86400);
+        res.status(200).json({ message: "Пользователь вышел" });
+        return;
+      }
+      throw ApiError.UnauthorizedError();
+    } catch (error) {
+      next(error);
+    }
+  }
 
-        if (refreshToken) {
-          const { id } = JwtService.getVerifyRefreshToken(refreshToken);
-          const token = JwtService.generateToken({ id });
+  static async refreshToken(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.body.user;
 
-          await RedisService.delete(key);
+      const key = `account:${id}:refreshToken`;
+      const refreshToken = await RedisService.get(key);
 
-          res.status(200).json({ token });
-          return;
-        }
+      if (refreshToken) {
+        const token = JwtService.generateToken({ id });
+
+        await RedisService.delete(key);
+
+        res.status(200).json({ token });
+        return;
       }
 
       throw ApiError.UnauthorizedError();

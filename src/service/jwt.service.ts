@@ -9,7 +9,7 @@ export default class JwtService {
     const accessToken = jwt.sign(payload, environment.jwtAccessToken, { expiresIn: "1h" });
     const refreshToken = jwt.sign(payload, environment.jwtRefreshToken, { expiresIn: "1d" });
 
-    RedisService.set(`account:accessToken:${accessToken}`, refreshToken, 86400);
+    RedisService.set(`account:${payload.id}:refreshToken`, refreshToken, 86400);
     return accessToken;
   }
 
