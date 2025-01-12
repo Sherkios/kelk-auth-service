@@ -2,7 +2,7 @@ import pool from "db/db";
 import { IAccount } from "src/types/account.types";
 
 export default class AccountModel {
-  static async createAccount(login: string, password: string): Promise<IAccount> {
+  static async createAccount(login: string, password: string): Promise<Pick<IAccount, "id">> {
     const result = await pool.query(
       "INSERT INTO accounts (login, password) values ($1, $2) RETURNING id",
       [login, password],
