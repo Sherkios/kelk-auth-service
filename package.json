@@ -9,7 +9,8 @@
     "dev": "nodemon",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
-    "test": "jest"
+    "test": "jest",
+    "test:exit": "jest --forceExit"
   },
   "keywords": [
     "kelk",
