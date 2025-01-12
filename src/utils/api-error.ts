@@ -17,4 +17,8 @@ export default class ApiError extends Error {
   public static BadRequest(message: string, errors?: { [key: string]: string }) {
     return new ApiError(400, message, errors);
   }
+
+  public static ValidateError(errors: { [key: string]: string }) {
+    return new ApiError(400, "Ошибка валидации", errors);
+  }
 }
