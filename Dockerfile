@@ -10,4 +10,4 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # устанавливаем указанные зависимости NPM на этапе установки образа
-RUN npm install
+RUN npm ci
