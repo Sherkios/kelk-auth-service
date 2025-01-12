@@ -8,13 +8,9 @@ import ApiError from "utils/api-error";
 export default class AccountController {
   static async register(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name, password } = req.body;
+      const { login, password } = req.body;
 
-      if (!name || !password) {
-        throw ApiError.BadRequest("Имя и пароль должны быть заполнены");
-      }
-
-      const existingAccount = await AccountModel.findByName(name);
+      const existingAccount = await AccountModel.findByLogin(login);
 
       if (existingAccount) {
         throw ApiError.BadRequest("Логин уже занят");
@@ -22,7 +18,7 @@ export default class AccountController {
 
       const hashedPassword = await AccountService.hashPassword(password);
 
-      const newAccount = await AccountModel.createAccount(name, hashedPassword);
+      const newAccount = await AccountModel.createAccount(login, hashedPassword);
 
       res.status(201).json(newAccount);
     } catch (error) {
@@ -35,7 +31,7 @@ export default class AccountController {
       const { login, password } = req.body;
 
       if (login !== "" && password) {
-        const account = await AccountModel.findByName(login);
+        const account = await AccountModel.findByLogin(login);
 
         if (account) {
           const isCorrectPassword: boolean = await AccountService.checkPassword(

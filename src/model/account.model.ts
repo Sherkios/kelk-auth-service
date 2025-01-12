@@ -2,16 +2,16 @@ import pool from "db/db";
 import { IAccount } from "src/types/account.types";
 
 export default class AccountModel {
-  static async createAccount(name: string, password: string): Promise<IAccount> {
+  static async createAccount(login: string, password: string): Promise<IAccount> {
     const result = await pool.query(
-      "INSERT INTO accounts (name, password) values ($1, $2) RETURNING id",
-      [name, password],
+      "INSERT INTO accounts (login, password) values ($1, $2) RETURNING id",
+      [login, password],
     );
     return result.rows[0];
   }
 
-  static async findByName(name: string): Promise<IAccount | null> {
-    const result = await pool.query("SELECT * FROM accounts WHERE name = $1", [name]);
+  static async findByLogin(login: string): Promise<IAccount | null> {
+    const result = await pool.query("SELECT * FROM accounts WHERE login = $1", [login]);
     return result.rows[0] || null;
   }
 
