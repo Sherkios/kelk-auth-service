@@ -127,5 +127,5 @@
     }
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "./eslint.config.js", "src/tests/**/*.ts"]
+  "exclude": ["node_modules", "./eslint.config.js"]
 }
