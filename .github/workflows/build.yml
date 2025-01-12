@@ -25,8 +25,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Start project
-        run: npm run start &
+      - name: Build project
+        run: npm run build
 
-      - name: Stop server
-        run: kill $(lsof -t -i:5000)
+      - name: Run tests
+        run: npm run test

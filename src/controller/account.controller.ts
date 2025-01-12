@@ -30,20 +30,18 @@ export default class AccountController {
     try {
       const { login, password } = req.body;
 
-      if (login !== "" && password) {
-        const account = await AccountModel.findByLogin(login);
+      const account = await AccountModel.findByLogin(login);
 
-        if (account) {
-          const isCorrectPassword: boolean = await AccountService.checkPassword(
-            password,
-            account.password,
-          );
-          if (isCorrectPassword) {
-            const token = JwtService.generateToken({ id: account.id });
+      if (account) {
+        const isCorrectPassword: boolean = await AccountService.checkPassword(
+          password,
+          account.password,
+        );
+        if (isCorrectPassword) {
+          const token = JwtService.generateToken({ id: account.id });
 
-            res.status(200).json({ token });
-            return;
-          }
+          res.status(200).json({ token });
+          return;
         }
       }
 
@@ -94,20 +92,16 @@ export default class AccountController {
     try {
       const { id } = req.params;
 
-      const validateId = Number(id) || null;
+      const validateId = Number(id);
 
-      if (validateId !== null) {
-        const account = await AccountModel.findById(Number(validateId));
+      const account = await AccountModel.findById(Number(validateId));
 
-        if (account) {
-          const { password, ...otherAcountValue } = account;
+      if (account) {
+        const { password, ...otherAcountValue } = account;
 
-          res.status(200).json(otherAcountValue);
-        } else {
-          throw ApiError.BadRequest("Пользователя с таким id не существует");
-        }
+        res.status(200).json(otherAcountValue);
       } else {
-        throw ApiError.BadRequest("Не корректный id");
+        throw ApiError.BadRequest("Пользователя с таким id не существует");
       }
     } catch (error) {
       next(error);
