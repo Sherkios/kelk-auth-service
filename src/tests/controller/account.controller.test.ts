@@ -3,7 +3,6 @@ import AccountModel from "model/account.model";
 import AccountService from "service/account.service";
 import JwtService from "service/jwt.service";
 import RedisService from "service/redis.service";
-// import RedisService from "service/redis.service";
 import AccountController from "src/controller/account.controller";
 import ApiError from "utils/api-error";
 
