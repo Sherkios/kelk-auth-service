@@ -35,12 +35,12 @@ jobs:
 
       - name: Deploy code to server
         run: |
-          whoami
           echo "Начинаем деплой..."
-          ssh -T -v -o StrictHostKeyChecking=no kelk@${{ secrets.SERVER_IP }} << EOF
+          ssh -o StrictHostKeyChecking=no kelk@${{ secrets.SERVER_IP }} << EOF
             cd /www/wwwroot/kelk.imugor.ru/kelk-auth-service
             git pull origin main
-            docker-compose down
+            docker compose down --remove-orphans
+            docker network prune -f
             docker-compose up -d
           EOF
         env:
