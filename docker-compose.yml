@@ -13,11 +13,6 @@ services:
     networks:
       - kelk_network
 
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-
     command: >
       sh -c "echo \"$NODE_ENV\"; if [ \"$NODE_ENV\" = 'production' ]; then npm run start; else npm run dev; fi"
 
@@ -58,15 +53,6 @@ services:
 
     volumes:
       - ./redisdata:/data
-
-    deploy:
-      resources:
-        limits:
-          cpus: "0.50"
-          memory: 512M
-        reservations:
-          cpus: "0.25"
-          memory: 256M
 
     networks:
       - kelk_network
