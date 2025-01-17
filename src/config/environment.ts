@@ -17,6 +17,11 @@ const environment = {
   redisPort: Number(process.env.REDIS_FORWARD_PORT) || 6379,
   redisPassword: process.env.REDIS_PASSWORD,
   redisHost: process.env.REDIST_HOST,
+
+  SMTPHost: process.env.SMTP_HOST,
+  SMTPPort: Number(process.env.SMTP_PORT) || 2525,
+  SMPTUser: process.env.SMTP_USER,
+  SMPTPassword: process.env.SMTP_PASSWORD,
 };
 
 export default environment;

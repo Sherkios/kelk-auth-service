@@ -19,7 +19,7 @@ services:
           memory: 512M
 
     command: >
-      sh -c "if [ \"$NODE_ENV\" = 'production' ]; then npm run start; else npm run dev; fi"
+      sh -c "if [ \"$NODE_ENV\" = 'production' ]; then npm install && npm run start; else npm run dev; fi"
 
   db:
     container_name: kelk_auth_db_container

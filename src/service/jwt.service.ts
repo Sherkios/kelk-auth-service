@@ -28,4 +28,16 @@ export default class JwtService {
       throw ApiError.UnauthorizedError();
     }
   }
+
+  public static generateResetPasswordToken(payload: IJwtPayload, password: string) {
+    return jwt.sign(payload, environment.jwtAccessToken + password, { expiresIn: "1h" });
+  }
+
+  public static getVerifyResetPasswordToken(token: string, password: string): IJwtPayload {
+    try {
+      return jwt.verify(token, environment.jwtAccessToken + password) as IJwtPayload;
+    } catch (error) {
+      throw ApiError.UnauthorizedError();
+    }
+  }
 }

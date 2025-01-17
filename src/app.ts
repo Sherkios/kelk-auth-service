@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import accountRouter from "./route/account.router";
 import { connectRedis } from "config/redis.config";
 import errorMiddleware from "middleware/error-middleware";
@@ -15,7 +15,7 @@ app.use("/", accountRouter);
 
 app.use(errorMiddleware);
 
-// app.get("/", (req: Request, res: Response) => {
-//   res.send("Hello, TypeScript with Хахахах!");
-// });
+app.get("/", (req: Request, res: Response) => {
+  res.send("Hello, it is kelk-auth service!");
+});
 export default app;
