@@ -28,9 +28,7 @@
     "nodemailer": "^6.9.16",
     "pg": "^8.13.1",
     "redis": "^4.7.0",
-    "uuid": "^11.0.4"
-  },
-  "devDependencies": {
+    "typescript": "^5.7.2",
     "@eslint/compat": "^1.2.4",
     "@eslint/js": "^9.17.0",
     "@types/bcrypt": "^5.0.2",
@@ -40,6 +38,9 @@
     "@types/node": "^22.10.5",
     "@types/pg": "^8.11.10",
     "@types/redis": "^4.0.10",
+    "uuid": "^11.0.4"
+  },
+  "devDependencies": {
     "dotenv": "^16.4.7",
     "eslint": "^9.17.0",
     "eslint-plugin-import": "^2.31.0",
@@ -51,7 +52,6 @@
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.2",
     "typescript-eslint": "^8.19.0"
   }
 }
