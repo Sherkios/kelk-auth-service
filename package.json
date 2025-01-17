@@ -19,11 +19,13 @@
   "author": "Igor Grishchenko",
   "license": "ISC",
   "dependencies": {
+    "@types/nodemailer": "^6.4.17",
     "bcrypt": "^5.1.0",
     "express": "^4.21.2",
     "express-validator": "^7.2.1",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.16",
     "pg": "^8.13.1",
     "redis": "^4.7.0",
     "uuid": "^11.0.4"

@@ -15,6 +15,17 @@ const registerSchema = checkSchema(
       },
       escape: true,
     },
+    email: {
+      trim: true,
+      notEmpty: {
+        errorMessage: "Почта не должна быть пустой",
+      },
+      isEmail: {
+        errorMessage: "Некорректный формат почты",
+      },
+      normalizeEmail: true,
+      escape: true,
+    },
     password: {
       trim: true,
       notEmpty: {
