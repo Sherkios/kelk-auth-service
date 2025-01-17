@@ -18,7 +18,7 @@ jobs:
         run: |
           echo "Начинаем деплой..."
           echo ${{ secrets.SERVER_USER }}
-          ssh -v -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << EOF
+          ssh -T -v -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << EOF
             cd /www/wwwroot/kelk.imugor.ru/kelk-auth-service
             git pull origin main
             docker compose down
