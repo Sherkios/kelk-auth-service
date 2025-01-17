@@ -14,11 +14,29 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      # Проверка кода
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Настройка SSH-агента и добавление приватного ключа
+      - name: Set up SSH agent
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          eval $(ssh-agent -s)
+          ssh-add ~/.ssh/id_rsa
+
+      # Добавление сервера в список известных хостов
+      - name: Add server to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
       - name: Deploy code to server
         run: |
           echo "Начинаем деплой..."
-          echo ${{ secrets.SERVER_USER }}
-          ssh -T -v -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << EOF
+          ssh -T -v -o StrictHostKeyChecking=no kelk@${{ secrets.SERVER_IP }} << EOF
             cd /www/wwwroot/kelk.imugor.ru/kelk-auth-service
             git pull origin main
             docker compose down
