@@ -8,7 +8,6 @@ services:
       - "${AUTH_PORT:-5000}:${AUTH_FORWARD_PORT:-5000}"
     volumes:
       - ./:/app
-      - /app/node_modules
 
     networks:
       - kelk_network
