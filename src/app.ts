@@ -16,6 +16,6 @@ app.use("/", accountRouter);
 app.use(errorMiddleware);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, it is kelk-auth service!");
+  res.send("Hello, it is kelk-auth service with deploy!");
 });
 export default app;
