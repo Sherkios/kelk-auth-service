@@ -22,6 +22,9 @@ jobs:
         with:
           node-version: 22 # Укажите версию Node.js
 
+      - name: run install
+        run: npm install
+
       - name: Build project
         run: npm run build
 
@@ -31,6 +34,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: run install
+        run: npm install
 
       - name: Run tests
         run: npm run test:exit
