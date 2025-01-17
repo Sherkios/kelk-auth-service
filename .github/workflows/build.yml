@@ -8,6 +8,10 @@ on:
     branches:
       - main
       - dev
+    types:
+      - opened # Запуск при открытии PR
+      - reopened # Запуск при повторном открытии PR
+      - closed
 
 jobs:
   build:
@@ -44,7 +48,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: [build, test] # Деплой выполняется только после успешного выполнения build и test
-    if: github.ref == 'refs/heads/main' # Выполняется только при пуше или pull request в ветку main
+    if: github.event.pull_request.state == 'closed' && github.event.pull_request.merged == true && (github.ref == 'refs/heads/main' || (github.event_name == 'pull_request' && github.base_ref == 'main')) # Выполняется только при пуше или pull request в ветку main
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
