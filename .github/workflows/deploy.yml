@@ -33,15 +33,26 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Deploy code to server
+      - name: drop docker code to server
         run: |
-          echo "Начинаем деплой..."
+          ssh -o StrictHostKeyChecking=no kelk@${{ secrets.SERVER_IP }} << EOF
+            cd /www/wwwroot/kelk.imugor.ru/kelk-auth-service
+            docker-compose down --remove-orphans
+            docker network prune -f
+          EOF
+
+      - name: Pull code to serverr
+        run: |
           ssh -o StrictHostKeyChecking=no kelk@${{ secrets.SERVER_IP }} << EOF
             cd /www/wwwroot/kelk.imugor.ru/kelk-auth-service
             git pull origin main
-            docker-compose down --remove-orphans
-            docker network prune -f
-            docker-compose up -d
           EOF
+
+      - name: Deploy to server
+        run: |
+          ssh -o StrictHostKeyChecking=no kelk@${{ secrets.SERVER_IP }} << EOF
+            cd /www/wwwroot/kelk.imugor.ru/kelk-auth-service
+            docker-compose up -d
+
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
