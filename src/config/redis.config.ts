@@ -1,5 +1,6 @@
 import { createClient, RedisClientType } from "redis";
 import environment from "config/environment";
+import logger from "utils/logger";
 
 const redisClient: RedisClientType = createClient({
   url: `redis://${environment.redisHost}:${environment.redisPort}`,
@@ -13,9 +14,9 @@ redisClient.on("error", (err: Error) => {
 export const connectRedis = async () => {
   try {
     await redisClient.connect();
-    console.log("Connected to Redis");
+    logger.info("Connected to Redis");
   } catch (error) {
-    console.error("Error connecting to Redis:", error);
+    logger.error("Error connecting to Redis:", error);
   }
 };
 

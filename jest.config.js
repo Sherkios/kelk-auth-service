@@ -19,5 +19,6 @@ module.exports = {
     "^middleware/(.*)$": "<rootDir>/src/middleware/$1",
     "^validators/(.*)$": "<rootDir>/src/validators/$1",
     "^tests/(.*)$": "<rootDir>/src/tests/$1",
+    "^logs/(.*)$": "<rootDir>/logs/$1",
   },
 };
