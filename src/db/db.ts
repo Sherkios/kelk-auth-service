@@ -1,6 +1,7 @@
 import { Pool } from "pg";
 
 import environment from "config/environment";
+import logger from "utils/logger";
 
 const pool = new Pool({
   user: environment.dbUser,
@@ -13,10 +14,10 @@ const pool = new Pool({
 const connect = async (): Promise<void> => {
   try {
     const client = await pool.connect();
-    console.log("Connected to PostgreSQL");
+    logger.info("Connected to PostgreSQL");
     client.release(); // Освободить подключение обратно в пул
   } catch (error) {
-    console.error("Error connecting to PostgreSQL:", error);
+    logger.error("Error connecting to PostgreSQL:", error);
   }
 };
 
