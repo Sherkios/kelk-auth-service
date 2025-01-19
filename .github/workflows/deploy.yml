@@ -52,7 +52,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no kelk@${{ secrets.SERVER_IP }} << EOF
             cd /www/wwwroot/kelk.imugor.ru/kelk-auth-service
-            docker-compose up -d
+            docker-compose up -d --build
 
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
