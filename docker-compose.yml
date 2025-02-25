@@ -4,6 +4,8 @@ services:
     build: .
     env_file:
       - .env
+    environment:
+      - DATABASE_URL=postgresql://${DATABASE_USER:-postgresql}:${DATABASE_PASSWORD:-password}@${DATABASE_HOST:-db}:${DATABASE_PORT:-5432}/${DATABASE_DB}?schema=public
     ports:
       - '${APP_PORT:-3000}:3000'
     volumes:

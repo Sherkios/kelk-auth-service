@@ -1,9 +1,10 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["prismaSchemaFolder"]
+  binaryTargets   = ["debian-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgresql:password@localhost:5432/kelk-auth?schema=public"
+  url      = env("DATABASE_URL")
 }
