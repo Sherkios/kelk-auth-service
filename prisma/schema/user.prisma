@@ -1,0 +1,18 @@
+model User {
+  id         Int     @id @default(autoincrement())
+  login      String  @unique
+  email      String  @unique
+  password   String
+  role       Role    @default(USER)
+  isActivate Boolean @default(false) @map("is_activate")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
