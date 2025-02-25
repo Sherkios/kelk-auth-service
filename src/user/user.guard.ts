@@ -11,8 +11,9 @@ import { TRequestWithUser } from 'src/auth/types/auth.interface';
 import { ROLES_KEY } from 'src/roles/roles.decorator';
 
 @Injectable()
-export default class RolesGuard implements CanActivate {
+export default class UserGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
+
   canActivate(context: ExecutionContext): boolean {
     const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
       context.getHandler(),
@@ -21,14 +22,15 @@ export default class RolesGuard implements CanActivate {
 
     if (!requiredRoles) return true;
 
-    const { user } = context.switchToHttp().getRequest<TRequestWithUser>();
+    const request = context.switchToHttp().getRequest<TRequestWithUser>();
 
+    const { user } = request;
     if (!user) throw new UnauthorizedException();
 
-    const isValid = requiredRoles.some(role => user.role === role);
+    const paramId: number = Number(request.params.id);
 
-    if (!isValid) throw new ForbiddenException();
+    if (requiredRoles.includes(user.role) || paramId === user.id) return true;
 
-    return true;
+    throw new ForbiddenException();
   }
 }
