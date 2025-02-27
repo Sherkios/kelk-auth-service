@@ -11,6 +11,7 @@ import UserModule from 'src/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from 'src/auth/constants';
 import RolesModule from 'src/roles/roles.module';
+import { createKeyv } from '@keyv/redis';
 
 @Module({
   imports: [
@@ -18,8 +19,17 @@ import RolesModule from 'src/roles/roles.module';
     AuthModule,
     UserModule,
     RolesModule,
-    CacheModule.register({
+    CacheModule.registerAsync({
+      imports: [ConfigModule],
       isGlobal: true,
+      useFactory: (configService: ConfigService) => ({
+        stores: [
+          createKeyv(
+            `redis://:${configService.get('REDIS_PASSWORD')}@redis:${configService.get('REDIS_PORT')}`,
+          ),
+        ],
+      }),
+      inject: [ConfigService],
     }),
     ConfigModule.forRoot({
       envFilePath: '.env',

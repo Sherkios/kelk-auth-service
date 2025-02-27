@@ -40,6 +40,8 @@ export default class AuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
+    console.log('guard', token);
+
     const blacklistToken = await this.cacheManager.get<string>(`token:blacklist:${token}`);
 
     if (blacklistToken) throw new UnauthorizedException();

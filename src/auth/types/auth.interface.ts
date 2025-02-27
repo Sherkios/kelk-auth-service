@@ -8,7 +8,7 @@ export interface IJwtPayload {
 }
 
 export interface IAuthRespone {
-  access_token: string;
+  accessToken: string;
 }
 
 export type TRequestWithUser = Request & { user: IJwtPayload };
