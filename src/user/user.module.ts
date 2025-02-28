@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import AuthGuard from 'src/auth/auth.guard';
+import AuthService from 'src/auth/auth.service';
+import CryptService from 'src/crypt/crypt.service';
 import { PrismaService } from 'src/prisma.service';
-import RolesGuard from 'src/roles/roles.guards';
 import UserController from 'src/user/user.controller';
 import UserService from 'src/user/user.service';
 
 @Module({
   controllers: [UserController],
-  providers: [UserService, PrismaService, AuthGuard, RolesGuard],
+  providers: [UserService, PrismaService, AuthService, CryptService],
+  exports: [UserService],
 })
 export default class UserModule {}

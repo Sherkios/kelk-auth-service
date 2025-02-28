@@ -11,4 +11,8 @@ export interface IAuthRespone {
   accessToken: string;
 }
 
-export type TRequestWithUser = Request & { user: IJwtPayload };
+export interface IAuthResponeWithId extends IAuthRespone {
+  id: number;
+}
+
+export type TRequestWithUser = Request & { user: IJwtPayload; token: string };

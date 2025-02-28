@@ -5,10 +5,12 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import { Cache } from 'cache-manager';
 import { jwtConstants } from 'src/auth/constants';
+import { RegisterDto } from 'src/auth/dto/register-dto';
 import SignInDto from 'src/auth/dto/SignInDto';
-import { IJwtPayload } from 'src/auth/types/auth.interface';
+import { IAuthResponeWithId, IJwtPayload } from 'src/auth/types/auth.interface';
 import CryptService from 'src/crypt/crypt.service';
 import { PrismaService } from 'src/prisma.service';
+import UserService from 'src/user/user.service';
 
 @Injectable()
 export default class AuthService {
@@ -17,10 +19,11 @@ export default class AuthService {
     private prisma: PrismaService,
     private cryptService: CryptService,
     private configService: ConfigService,
+    private userService: UserService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
-  async signIn(signInDto: SignInDto): Promise<string> {
+  async signIn(signInDto: SignInDto): Promise<IAuthResponeWithId> {
     const user = await this.prisma.user.findFirst({
       where: { login: signInDto.login },
     });
@@ -33,7 +36,7 @@ export default class AuthService {
 
     const { accessToken } = await this.getToken(user);
 
-    return accessToken;
+    return { accessToken, id: user.id };
   }
 
   async logout(token: string) {
@@ -41,16 +44,12 @@ export default class AuthService {
   }
 
   async getRefreshedToken(accessToken: string): Promise<string> {
-    console.log('refresh token', accessToken);
-
     const blacklistToken = await this.cacheManager.get(`token:blacklist:${accessToken}`);
     if (blacklistToken) throw new UnauthorizedException();
 
     // Получаем ключ рефреш
     const chacheKey = `refreshToken:${accessToken}`;
     const refreshToken = await this.cacheManager.get<string>(chacheKey);
-
-    console.log('refersh refresh', refreshToken);
 
     if (!refreshToken) throw new UnauthorizedException();
 
@@ -92,5 +91,11 @@ export default class AuthService {
     await this.cacheManager.set(`refreshToken:${accessToken}`, refreshToken, 21_600_000);
 
     return { accessToken, refreshToken };
+  }
+
+  async createNewUser(registerDto: RegisterDto): Promise<User> {
+    const newUser = await this.userService.createOne(registerDto);
+
+    return newUser;
   }
 }

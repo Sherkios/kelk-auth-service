@@ -14,14 +14,16 @@ async function main() {
         email: 'sherkios@mail.ru',
         password: adminPassword,
         role: 'ADMIN',
-        username: 'admin',
+        name: 'ad',
+        lastName: 'min',
       },
       {
         login: 'user',
         email: 'user@mail.ru',
         password: userPassword,
         role: 'USER',
-        username: 'user',
+        name: 'us',
+        lastName: 'er',
       },
     ],
   });
